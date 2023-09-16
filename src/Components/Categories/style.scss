@@ -1,0 +1,12 @@
+.category {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 10px;
+    color: rgb(56, 56, 255);
+
+    p {
+        text-decoration: underline;
+    }
+}
