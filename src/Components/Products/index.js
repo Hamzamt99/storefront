@@ -37,7 +37,13 @@ function Product(props) {
                     </CardContent>
                     <CardActions>
                         <Button size="small">Details</Button>
-                        <Button size="small" onClick={() => props.addCart(product)}>Add to Cart</Button>
+                        {
+                            !product.inCard ?
+                                <Button size="small" onClick={() => props.addCart(product)}>Add to Cart</Button>
+                                :
+                                <Button size="small" >Add to Cart</Button>
+
+                        }
                     </CardActions>
                 </Card>
             ))}

@@ -8,7 +8,6 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { deleteCart } from '../store/cart'
 function Cart(props) {
-
     const cart = props.cart.cart
     return (
         <div>
