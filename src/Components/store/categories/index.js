@@ -1,4 +1,4 @@
-
+'use strict'
 
 export const initialState = {
     categories: [
@@ -25,11 +25,3 @@ export const dispatcher = (name) => {
         payload: name
     }
 }
-// console.log(payload);
-// const allProduct = state.products.map(product => {
-//     if (product.category === payload) {
-//         return { name: product.name }
-//     }
-//     return product
-// })
-// return allProduct

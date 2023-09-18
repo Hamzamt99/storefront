@@ -7,15 +7,16 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { deleteCart } from '../store/cart'
+import './style.scss'
 function Cart(props) {
     const cart = props.cart.cart
     return (
-        <div>
+        <div className='cont'>
             {cart.map((item, index) => {
                 return (
                     <Card sx={{ maxWidth: 345 }} key={index}>
                         <CardMedia
-                            sx={{ height: 140 }}
+                            sx={{ height: 170 }}
                             image={item.image}
                             title={item.name}
                         />

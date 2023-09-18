@@ -3,12 +3,14 @@ import { connect } from 'react-redux';
 import { dispatcher } from '../store/categories';
 import './style.scss'
 import { Link } from 'react-router-dom';
+// import { Box ,H} from '@chakra-ui/react';
 function Category(props) {
     const cartDetails = props.cart
     const categories = props.categories
     return (
         <>
             <h1 >Browse Our Category</h1>
+            {/* <Box>TTTTTTTEst</Box> */}
             <div className='category'>
                 {
                     categories &&
