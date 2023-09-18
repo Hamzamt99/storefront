@@ -1,41 +1,72 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import './style.scss'
+import { addCart } from '../store/cart';
+import { ChakraProvider } from '@chakra-ui/react';
+import { Card, CardHeader, CardBody, CardFooter, Image, Stack, Divider, Button, Heading, Text, ButtonGroup } from '@chakra-ui/react'
+
+import './style.scss';
+
 function Product(props) {
-    const activeCategory = props.products.activeCategory;
-    const categoryProducts = props.products.products;
+    const activeCategory = props.store.categories.activeCategory;
+    const categoryProducts = props.store.products.products;
     const filteredProducts = categoryProducts.filter(product => product.category === activeCategory);
 
     return (
         <div>
             <h2>{activeCategory}</h2>
-            {filteredProducts.map((product, index) => (
-                <Card key={index} sx={{ maxWidth: 450 }} className='card'>
-                    <CardMedia
-                        sx={{ height: 160 }}
-                        image={`${product.image}`}
-                        title={product.name}
-                    />
-                    <CardContent>
-                        <Typography gutterBottom variant="h5" component="div">
-                            {product.name}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                            {product.description}
-                        </Typography>
-                    </CardContent>
-                </Card>
-            ))}
-        </div>
+            <div className='con'>
+                {filteredProducts.map((product, index) => (
+                    <ChakraProvider>
+                        <Card maxW='sm' >
+                            <CardBody>
+                                <Image
+                                    src={product.image}
+                                    alt='Green double couch with wooden legs'
+                                    borderRadius='lg'
+                                    height='50%'
+                                />
+                                <Stack mt='6'>
+                                    <Heading size='md'>{product.name}</Heading>
+                                    <Text>
+                                        {product.description}
+                                    </Text>
+                                    <Text color='blue.600' fontSize='2xl'>
+                                        Price : {product.price} $
+                                    </Text>
+                                    <Text color='blue.600' fontSize='2xl'>
+                                        in stock : {product.stock}
+                                    </Text>
+                                </Stack>
+                            </CardBody>
+                            <Divider />
+                            <CardFooter>
+                                <ButtonGroup >
+                                    {
+                                        !product.inCart ?
+                                            < Button variant='solid' colorScheme='blue' onClick={() => props.addCart(product)}>
+                                                Add to cart
+                                            </Button>
+                                            :
+                                            < Button variant='solid' colorScheme='blue'>
+                                                Add to cart
+                                            </Button>
+
+                                    }
+                                </ButtonGroup>
+                            </CardFooter>
+                        </Card>
+                    </ChakraProvider>
+                ))
+                }
+            </div>
+        </div >
     );
 }
 
 const mapStateToProps = state => ({
-    products: state
+    store: state
 });
 
-export default connect(mapStateToProps)(Product);
+const mapDispatchToProps = { addCart }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Product);

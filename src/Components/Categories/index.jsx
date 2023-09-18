@@ -2,38 +2,42 @@ import React from 'react'
 import { connect } from 'react-redux';
 import { dispatcher } from '../store/categories';
 import './style.scss'
+import { Link } from 'react-router-dom';
+// import { Box ,H} from '@chakra-ui/react';
 function Category(props) {
+    const cartDetails = props.cart
     const categories = props.categories
-
-    const handleCategoryClick = (name) => {
-        props.dispatcher(name);
-    }
-
     return (
         <>
             <h1 >Browse Our Category</h1>
+            {/* <Box>TTTTTTTEst</Box> */}
             <div className='category'>
                 {
                     categories &&
                     categories.map(category => {
                         return (
-                            <p key={category.name} onClick={() => handleCategoryClick(category.name)}>
+                            <Link key={category.name} onClick={() => props.dispatcher(category.name)}>
                                 {category.name}
-                            </p>
+                            </Link>
                         )
                     })
                 }
             </div>
+
+            {cartDetails &&
+                cartDetails.map((item, index) => {
+                    return <p key={index}>{item.name}</p>
+                })}
+
         </>
     )
 }
 
 const mapStateToProps = state => ({
-    categories: state.categories
+    categories: state.categories.categories,
+    cart: state.cart.cart,
 })
 
-const mapDispatchToProps = dispatch => ({
-    dispatcher: name => dispatch(dispatcher(name))
-})
+const mapDispatchToProps = { dispatcher }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Category)
