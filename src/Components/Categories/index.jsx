@@ -26,24 +26,25 @@ function Category(props) {
                     }
                 </div>
                 {
-                    cartDetails.length &&
-                    < Grid
-                        h='200px'
-                        templateRows='repeat(2, 1fr)'
-                        templateColumns='repeat(5, 1fr)'
-                        gap={4}
-                    >
-                        <GridItem rowSpan={2} colSpan={1} bg='rgb(221, 221, 221)' > {
-                            cartDetails &&
-                            cartDetails.map((item, index) => {
-                                return [<h4>{item.name}</h4>,
-                                <Button colorScheme='red' size='xs' onClick={() => props.deleteCart(item)}>
-                                    Delete
-                                </Button>
-                                ]
-                            })
-                        }</GridItem>
-                    </Grid>
+                    cartDetails.length ?
+                        < Grid
+                            h='200px'
+                            templateRows='repeat(2, 1fr)'
+                            templateColumns='repeat(5, 1fr)'
+                            gap={4}
+                        >
+                            <GridItem rowSpan={2} colSpan={1} bg='rgb(221, 221, 221)' > {
+                                cartDetails &&
+                                cartDetails.map((item, index) => {
+                                    return [<h4>{item.name}</h4>,
+                                    <Button colorScheme='red' size='xs' onClick={() => props.deleteCart(item)}>
+                                        Delete
+                                    </Button>
+                                    ]
+                                })
+                            }</GridItem>
+                        </Grid>
+                        : null
                 }
             </ChakraProvider >
         </>
