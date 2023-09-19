@@ -9,13 +9,13 @@ import Typography from '@mui/material/Typography';
 import { deleteCart } from '../store/cart'
 import './style.scss'
 import axios from 'axios';
-import Header from '../Header';
+
 function Cart() {
     const [cart, setData] = useState([])
     const distpatch = useDispatch()
     const data = useSelector(state => state.cart)
     useEffect(() => {
-        axios.get('http://localhost:3001/product').then(data => setData(data.data))
+        axios.get('https://sample-back-end.onrender.com/product').then(data => setData(data.data))
     }, [data])
     return (
         <div className='cont'>

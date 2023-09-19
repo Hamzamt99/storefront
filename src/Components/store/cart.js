@@ -10,7 +10,7 @@ export default (state = initialState, action) => {
         case 'ADD_CART':
             const existItem = state.cart.find(item => item.id === payload.id);
             if (!existItem) {
-                axios.post('http://localhost:3001/product', payload)
+                axios.post('https://sample-back-end.onrender.com', payload)
                 return {
                     ...state,
                     cart: [...state.cart, payload]
@@ -19,7 +19,7 @@ export default (state = initialState, action) => {
             return state
         case 'DELETE_CART':
             const deleteItem = state.cart.filter(item => item.id !== payload.id);
-            axios.delete(`http://localhost:3001/product/${payload.id}`)
+            axios.delete(`https://sample-back-end.onrender.com/${payload.id}`)
             return {
                 cart: deleteItem
             };
