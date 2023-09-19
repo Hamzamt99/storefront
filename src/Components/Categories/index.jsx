@@ -4,7 +4,7 @@ import { active, get } from '../store/categories';
 import { product } from '../store/products';
 import { deleteCart } from '../store/cart';
 import './style.scss'
-import { ChakraProvider, useStatStyles } from '@chakra-ui/react';
+import { ChakraProvider } from '@chakra-ui/react';
 import { Grid, GridItem, Button } from '@chakra-ui/react'
 import { Link } from 'react-router-dom';
 function Category() {
@@ -47,7 +47,7 @@ function Category() {
                             <GridItem rowSpan={2} colSpan={1} bg='rgb(221, 221, 221)' > {
                                 cartDetails &&
                                 cartDetails.map((item, index) => {
-                                    return [<h4>{item.name}</h4>,
+                                    return [<h4>{item.title}</h4>,
                                     <Button colorScheme='red' size='xs' onClick={() => dispatch(deleteCart(item))}>
                                         Delete
                                     </Button>

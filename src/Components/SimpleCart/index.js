@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -8,23 +8,28 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { deleteCart } from '../store/cart'
 import './style.scss'
+import axios from 'axios';
+import Header from '../Header';
 function Cart() {
+    const [cart, setData] = useState([])
     const distpatch = useDispatch()
-    const cart = useSelector(state => state.cart)
-    console.log(cart);
+    const data = useSelector(state => state.cart)
+    useEffect(() => {
+        axios.get('http://localhost:3001/product').then(data => setData(data.data))
+    }, [data])
     return (
         <div className='cont'>
-            {cart.cart.map((item, index) => {
+            {cart.map((item, index) => {
                 return (
                     <Card sx={{ maxWidth: 345 }} key={index}>
                         <CardMedia
                             sx={{ height: 170 }}
                             image={item.thumbnail}
-                            title={item.name}
+                            title={item.title}
                         />
                         <CardContent>
                             <Typography gutterBottom variant="h5" component="div">
-                                {item.name}
+                                {item.title}
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
                                 Price : {item.price} $

@@ -10,7 +10,6 @@ function Product() {
     const activeCategory = useSelector(state => state.categories.activeCategory)
     const categoryProducts = useSelector(state => state.products)
     const filteredProducts = categoryProducts.products.filter(product => product.category === activeCategory);
-    console.log(filteredProducts);
     const sliced = filteredProducts.slice(0, 3)
     return (
         <div>
@@ -27,7 +26,7 @@ function Product() {
                                     height='50%'
                                 />
                                 <Stack mt='6'>
-                                    <Heading size='md'>{product.name}</Heading>
+                                    <Heading size='md'>{product.title}</Heading>
                                     <Text>
                                         {product.description}
                                     </Text>
