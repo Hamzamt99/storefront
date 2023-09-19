@@ -1,5 +1,5 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -8,8 +8,15 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { deleteCart } from '../store/cart'
 import './style.scss'
-function Cart(props) {
-    const cart = props.cart.cart
+import axios from 'axios';
+
+function Cart() {
+    const [cart, setData] = useState([])
+    const distpatch = useDispatch()
+    const data = useSelector(state => state.cart)
+    useEffect(() => {
+        axios.get('https://sample-back-end.onrender.com/product').then(data => setData(data.data))
+    }, [data])
     return (
         <div className='cont'>
             {cart.map((item, index) => {
@@ -17,20 +24,20 @@ function Cart(props) {
                     <Card sx={{ maxWidth: 345 }} key={index}>
                         <CardMedia
                             sx={{ height: 170 }}
-                            image={item.image}
-                            title={item.name}
+                            image={item.thumbnail}
+                            title={item.title}
                         />
                         <CardContent>
                             <Typography gutterBottom variant="h5" component="div">
-                                {item.name}
+                                {item.title}
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
                                 Price : {item.price} $
                             </Typography>
                         </CardContent>
                         <CardActions>
-                            <Button size="small">Place Your Order</Button>
-                            <Button size="small" onClick={() => props.deleteCart(item)}>Delete</Button>
+                            <Button size="small" >Place Your Order</Button>
+                            <Button size="small" onClick={() => distpatch(deleteCart(item))}>Delete</Button>
 
                         </CardActions>
                     </Card>
@@ -40,9 +47,5 @@ function Cart(props) {
     )
 }
 
-const mapStateToProps = state => ({
-    cart: state.cart
-})
-const mapDispatchToProps = { deleteCart }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Cart)
+export default Cart

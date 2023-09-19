@@ -1,14 +1,25 @@
-import React from 'react'
-import { connect } from 'react-redux';
-import { dispatcher } from '../store/categories';
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { active, get } from '../store/categories';
+import { product } from '../store/products';
 import { deleteCart } from '../store/cart';
 import './style.scss'
 import { ChakraProvider } from '@chakra-ui/react';
-import { Grid, GridItem, Button, Stack } from '@chakra-ui/react'
+import { Grid, GridItem, Button } from '@chakra-ui/react'
 import { Link } from 'react-router-dom';
-function Category(props) {
-    const cartDetails = props.cart
-    const categories = props.categories
+function Category() {
+    function handleClick(name) {
+        dispatch(product())
+        dispatch(active(name))
+    }
+    const dispatch = useDispatch()
+    const cartDetails = useSelector(state => state.cart)
+    const categories = useSelector(state => state.categories)
+    const slicedCategory = categories.categories.slice(0, 5)
+
+    useEffect(() => {
+        dispatch(get())
+    }, [])
     return (
         <>
             <ChakraProvider>
@@ -16,10 +27,10 @@ function Category(props) {
                 <div className='category'>
                     {
                         categories &&
-                        categories.map(category => {
+                        slicedCategory.map(category => {
                             return (
-                                <Link key={category.name} onClick={() => props.dispatcher(category.name)}>
-                                    {category.name}
+                                <Link key={category} onClick={() => handleClick(category)}>
+                                    {category}
                                 </Link>
                             )
                         })
@@ -36,8 +47,8 @@ function Category(props) {
                             <GridItem rowSpan={2} colSpan={1} bg='rgb(221, 221, 221)' > {
                                 cartDetails &&
                                 cartDetails.map((item, index) => {
-                                    return [<h4>{item.name}</h4>,
-                                    <Button colorScheme='red' size='xs' onClick={() => props.deleteCart(item)}>
+                                    return [<h4>{item.title}</h4>,
+                                    <Button colorScheme='red' size='xs' onClick={() => dispatch(deleteCart(item))}>
                                         Delete
                                     </Button>
                                     ]
@@ -51,11 +62,6 @@ function Category(props) {
     )
 }
 
-const mapStateToProps = state => ({
-    categories: state.categories.categories,
-    cart: state.cart.cart,
-})
 
-const mapDispatchToProps = { dispatcher, deleteCart }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Category)
+export default Category
