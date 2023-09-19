@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -8,16 +8,18 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { deleteCart } from '../store/cart'
 import './style.scss'
-function Cart(props) {
-    const cart = props.cart.cart
+function Cart() {
+    const distpatch = useDispatch()
+    const cart = useSelector(state => state.cart)
+    console.log(cart);
     return (
         <div className='cont'>
-            {cart.map((item, index) => {
+            {cart.cart.map((item, index) => {
                 return (
                     <Card sx={{ maxWidth: 345 }} key={index}>
                         <CardMedia
                             sx={{ height: 170 }}
-                            image={item.image}
+                            image={item.thumbnail}
                             title={item.name}
                         />
                         <CardContent>
@@ -29,8 +31,8 @@ function Cart(props) {
                             </Typography>
                         </CardContent>
                         <CardActions>
-                            <Button size="small">Place Your Order</Button>
-                            <Button size="small" onClick={() => props.deleteCart(item)}>Delete</Button>
+                            <Button size="small" >Place Your Order</Button>
+                            <Button size="small" onClick={() => distpatch(deleteCart(item))}>Delete</Button>
 
                         </CardActions>
                     </Card>
@@ -40,9 +42,5 @@ function Cart(props) {
     )
 }
 
-const mapStateToProps = state => ({
-    cart: state.cart
-})
-const mapDispatchToProps = { deleteCart }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Cart)
+export default Cart

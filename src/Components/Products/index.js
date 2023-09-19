@@ -1,26 +1,27 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addCart } from '../store/cart';
 import { ChakraProvider } from '@chakra-ui/react';
-import { Card, CardHeader, CardBody, CardFooter, Image, Stack, Divider, Button, Heading, Text, ButtonGroup } from '@chakra-ui/react'
-
+import { Card, CardBody, CardFooter, Image, Stack, Divider, Button, Heading, Text, ButtonGroup } from '@chakra-ui/react'
 import './style.scss';
 
-function Product(props) {
-    const activeCategory = props.store.categories.activeCategory;
-    const categoryProducts = props.store.products.products;
-    const filteredProducts = categoryProducts.filter(product => product.category === activeCategory);
-
+function Product() {
+    const dispatch = useDispatch()
+    const activeCategory = useSelector(state => state.categories.activeCategory)
+    const categoryProducts = useSelector(state => state.products)
+    const filteredProducts = categoryProducts.products.filter(product => product.category === activeCategory);
+    console.log(filteredProducts);
+    const sliced = filteredProducts.slice(0, 3)
     return (
         <div>
             <h2>{activeCategory}</h2>
             <div className='con'>
-                {filteredProducts.map((product, index) => (
+                {sliced.map((product, index) => (
                     <ChakraProvider>
-                        <Card maxW='sm' >
+                        <Card maxW='sm' key={index}>
                             <CardBody>
                                 <Image
-                                    src={product.image}
+                                    src={product.thumbnail}
                                     alt='Green double couch with wooden legs'
                                     borderRadius='lg'
                                     height='50%'
@@ -33,6 +34,7 @@ function Product(props) {
                                     <Text color='blue.600' fontSize='2xl'>
                                         Price : {product.price} $
                                     </Text>
+
                                     <Text color='blue.600' fontSize='2xl'>
                                         in stock : {product.stock}
                                     </Text>
@@ -42,8 +44,8 @@ function Product(props) {
                             <CardFooter>
                                 <ButtonGroup >
                                     {
-                                        !product.inCart ?
-                                            < Button variant='solid' colorScheme='blue' onClick={() => props.addCart(product)}>
+                                        !product.inCart && product.stock !== 0 ?
+                                            < Button variant='solid' colorScheme='blue' onClick={() => dispatch(addCart(product))}>
                                                 Add to cart
                                             </Button>
                                             :
@@ -63,10 +65,4 @@ function Product(props) {
     );
 }
 
-const mapStateToProps = state => ({
-    store: state
-});
-
-const mapDispatchToProps = { addCart }
-
-export default connect(mapStateToProps, mapDispatchToProps)(Product);
+export default Product;
