@@ -12,7 +12,7 @@ import axios from 'axios';
 
 function Cart() {
     const [cart, setData] = useState([])
-    const distpatch = useDispatch()
+    const dispatch = useDispatch()
     const data = useSelector(state => state.cart)
     useEffect(() => {
         axios.get('https://sample-back-end.onrender.com/product').then(data => setData(data.data))
@@ -37,7 +37,7 @@ function Cart() {
                         </CardContent>
                         <CardActions>
                             <Button size="small" >Place Your Order</Button>
-                            <Button size="small" onClick={() => distpatch(deleteCart(item))}>Delete</Button>
+                            <Button size="small" onClick={() => dispatch(deleteCart(item))}>Delete</Button>
 
                         </CardActions>
                     </Card>
