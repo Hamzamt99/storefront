@@ -37,7 +37,7 @@ function Category() {
                     }
                 </div>
                 {
-                    cartDetails.length ?
+                    cartDetails.cart.length ?
                         < Grid
                             h='200px'
                             templateRows='repeat(2, 1fr)'
@@ -46,7 +46,7 @@ function Category() {
                         >
                             <GridItem rowSpan={2} colSpan={1} bg='rgb(221, 221, 221)' > {
                                 cartDetails &&
-                                cartDetails.map((item, index) => {
+                                cartDetails.cart.map((item, index) => {
                                     return [<h4>{item.title}</h4>,
                                     <Button colorScheme='red' size='xs' onClick={() => dispatch(deleteCart(item))}>
                                         Delete
