@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 function Header() {
     const [data, setData] = useState([])
     useEffect(() => {
-        axios.get('http://localhost:3001/product')
+        axios.get('https://sample-back-end.onrender.com/product')
             .then(data => {
                 setData(data.data)
             })
