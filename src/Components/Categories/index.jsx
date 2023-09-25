@@ -7,7 +7,9 @@ import './style.scss'
 import { ChakraProvider } from '@chakra-ui/react';
 import { Grid, GridItem, Button } from '@chakra-ui/react'
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 function Category() {
+    const [data, setData] = useState([])
     function handleClick(name) {
         dispatch(product())
         dispatch(active(name))
@@ -20,6 +22,12 @@ function Category() {
     useEffect(() => {
         dispatch(get())
     }, [])
+    useEffect(() => {
+        axios.get('http://localhost:3001/product')
+            .then(data => {
+                setData(data.data)
+            })
+    }, [data])
     return (
         <>
             <ChakraProvider>
@@ -37,7 +45,7 @@ function Category() {
                     }
                 </div>
                 {
-                    cartDetails.cart.length ?
+                    data.length ?
                         < Grid
                             h='200px'
                             templateRows='repeat(2, 1fr)'
@@ -45,8 +53,8 @@ function Category() {
                             gap={4}
                         >
                             <GridItem rowSpan={2} colSpan={1} bg='rgb(221, 221, 221)' > {
-                                cartDetails &&
-                                cartDetails.cart.map((item, index) => {
+                                data &&
+                                data.map((item, index) => {
                                     return [<h4>{item.title}</h4>,
                                     <Button colorScheme='red' size='xs' onClick={() => dispatch(deleteCart(item))}>
                                         Delete

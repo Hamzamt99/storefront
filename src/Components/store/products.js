@@ -27,6 +27,9 @@ export default (state = initailState, action) => {
                 return product;
             });
             return { ...state, products: unDelete };
+        case 'activeProduct':
+            const filteredProducts = state.products.filter(product => product.id === payload);
+            return { products: filteredProducts };
         default:
             return state
     }
@@ -41,3 +44,11 @@ const fetchData = (data) => ({
     type: 'Product',
     payload: data
 })
+
+
+export const detail = (id) => {
+    return {
+        type: 'activeProduct',
+        payload: id
+    }
+}

@@ -1,9 +1,11 @@
-import React from 'react';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { addCart } from '../store/cart';
 import { ChakraProvider } from '@chakra-ui/react';
 import { Card, CardBody, CardFooter, Image, Stack, Divider, Button, Heading, Text, ButtonGroup } from '@chakra-ui/react'
+import { detail } from '../store/products'
 import './style.scss';
+import { Link } from 'react-router-dom';
 
 function Product() {
     const dispatch = useDispatch()
@@ -11,6 +13,10 @@ function Product() {
     const categoryProducts = useSelector(state => state.products)
     const filteredProducts = categoryProducts.products.filter(product => product.category === activeCategory);
     const sliced = filteredProducts.slice(0, 3)
+    function detailsHandler(id) {
+        dispatch(detail(id))
+    }
+
     return (
         <div>
             <h2>{activeCategory}</h2>
@@ -53,6 +59,9 @@ function Product() {
                                             </Button>
 
                                     }
+                                    < Button variant='solid' colorScheme='blue' onClick={() => { detailsHandler(product.id) }}>
+                                        <Link to='/details'> Details</Link>
+                                    </Button>
                                 </ButtonGroup>
                             </CardFooter>
                         </Card>
