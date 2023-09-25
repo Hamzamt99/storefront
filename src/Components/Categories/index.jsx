@@ -23,7 +23,7 @@ function Category() {
         dispatch(get())
     }, [])
     useEffect(() => {
-        axios.get('http://localhost:3001/product')
+        axios.get('https://sample-back-end.onrender.com/product')
             .then(data => {
                 setData(data.data)
             })
